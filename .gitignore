@@ -1,0 +1,3 @@
+#these are added to help with privacy incase someone tries to hack your repo
+.env*
+/node_modules
