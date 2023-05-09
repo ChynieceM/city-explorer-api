@@ -10,7 +10,8 @@ This server defines an API endpoint that takes in a query string with latitude, 
 1. Ensure that Node.js and npm are installed on your machine. 
    ` node -v`
    ` npm -v`
-2. Clone or download the source code for the app from the GitHub repository.
+2. Run `npm -init name-of-repo` to create the repo
+
 3. Navigate to the project directory in the terminal.
 4. Install the dependencies by running the following command: `npm install express`
 `npm install cors`, `npm install dotenv`
