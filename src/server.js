@@ -1,4 +1,4 @@
-const serverless = require("serverless-http");
+//const serverless = require("serverless-http");
 
 //imports the 'dotenv' package & configures environ variables
 require('dotenv').config();
@@ -10,24 +10,22 @@ const cors = require('cors');
 
 //const data = require('./data/weather.json');
 //sets the port# for the server to listen, if the PORT is set it will use that value else default port 3001
-
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 9000;
 const axios = require('axios');
 const app = express();//new instance of express app
 app.use(cors());// allows CORS for all routes in app
 
 // Create a router to handle routes
-const router = express.Router();
+//const router = express.Router();
 
 // Use the router to handle requests to the `/.netlify/functions/server` path
-app.use(`/.netlify/functions/server`, router);
 //creates new route for the server to handle GET requests to '/weather'
-router.get('/weather', function (req, res) {
-const apiKey = 'c747c969b2404e4dabfbd420e7d9a9f7';
-    let {lat, lon} = req.query;
-    axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${apiKey}`)
-        .then(response => {
-
+app.get('/weather', function (req, res) {
+    const apiKey = 'c747c969b2404e4dabfbd420e7d9a9f7';
+    let {lat, lon, searchQuery} = req.query;
+    axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&city=${searchQuery}&key=${apiKey}`)
+    .then(response => {
+        
             const data = response.data;
             console.log(data);
             let weatherForecaster = response.data.data.map(obj => {
@@ -56,14 +54,15 @@ axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&api_ke
 .catch(error => {
     console.error(error);
     res.status(500).json({ error: "Movie not found" });
- });
-    });
+});
+});
 
+//app.use(`/.netlify/functions/server`, router);
     // Export the app and the serverless function
     //starts the server and listens for requests on port 3001
-    app.listen(3001)
-    module.exports = app;
-    module.exports.handler = serverless(app);
+    app.listen(PORT)
+    // module.exports = app;
+    // module.exports.handler = serverless(app);
     
     class Forecast {
     constructor(date, description, lat, lon, city_name) {
