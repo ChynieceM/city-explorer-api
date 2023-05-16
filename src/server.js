@@ -60,10 +60,10 @@ axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&api_ke
     });
 
     // Export the app and the serverless function
-module.exports = app;
-module.exports.handler = serverless(app);
     //starts the server and listens for requests on port 3001
     app.listen(3001)
+    module.exports = app;
+    module.exports.handler = serverless(app);
     
     class Forecast {
     constructor(date, description, lat, lon, city_name) {
