@@ -48,13 +48,15 @@ axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&api_ke
     let newMovie = data.results.map(obj => {
         return new Movie (obj.title, obj.overview, obj.vote_average, 'https://image.tmdb.org/t/p/w500/'+obj.poster_path, obj.popularity, obj.release_date)
     });
-    res.send(newMovie)
+    //res.send(newMovie)
+    if(newMovie.length === 0){
+        res.status(500).json({error:"Movie not found"});
+    }else{
+        res.send(newMovie)
+    }
     console.log(response)
 })
-.catch(error => {
-    console.error(error);
-    res.status(500).json({ error: "Movie not found" });
-});
+
 });
 
 //app.use(`/.netlify/functions/server`, router);
