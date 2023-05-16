@@ -39,7 +39,7 @@ app.get('/weather', function (req, res) {
             res.status(500).json({ error: "City not found" });
          });
     });
-    router.get('/movies', function(req,res){
+    app.get('/movies', function(req,res){
         const api = '015aa99beb288e6a4a24ca05fa54bebb'
          let {searchQuery} = req.query;
 axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&api_key=${api}`)
