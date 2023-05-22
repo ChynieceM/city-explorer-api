@@ -1,6 +1,6 @@
 const axios = require('axios');
 const NodeCache = require("node-cache");
-const cache = require('./cache');
+const cache = require('.cache');
 
 class Movie {
     constructor(title, overview, vote_average, poster_path, popularity, release_date) {
