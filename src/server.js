@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const Weather = require('./Weather');
 const Movie = require('./Movie');
+const cache = require('.cache');
 
 const PORT = process.env.PORT || 9000;
 const axios = require('axios');
