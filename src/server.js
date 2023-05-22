@@ -1,20 +1,27 @@
-//const serverless = require("serverless-http");
-//imports the 'dotenv' package & configures environ variables
 require('dotenv').config();
-//imports express package
+
 const express = require('express');
-//imports cors package, allows cross-origin resource sharing(CORS) in app
+
 const cors = require('cors');
-//imports json file with weather locations
+
 const Weather = require('./Weather');
 const Movie = require('./Movie');
-//const data = require('./data/weather.json');
-//sets the port# for the server to listen, if the PORT is set it will use that value else default port 3001
+
 const PORT = process.env.PORT || 9000;
 const axios = require('axios');
+
+const NodeCache = require( "node-cache" );
+
 const app = express();//new instance of express app
 app.use(cors());// allows CORS for all routes in app
 app.listen(PORT)
+
+const movieCache = new NodeCache();
+const weatherCache = new NodeCache();
+
+module.exports = weatherCache;
+module.exports = movieCache;
+
 
 app.get('/weather', Weather.Weather);
 app.get('/movies', Movie.Movie);

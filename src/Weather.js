@@ -1,4 +1,8 @@
 const axios = require('axios');
+const NodeCache = require( "node-cache" );
+const cache = require('./cache');
+
+
 
 class Forecast {
     constructor(date, description, lat, lon, city_name) {
@@ -11,23 +15,32 @@ class Forecast {
 };
 
 exports.Weather = function(req, res){
-    const apiKey = 'c747c969b2404e4dabfbd420e7d9a9f7';
     let { lat, lon, searchQuery } = req.query;
-    axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&city=${searchQuery}&key=${apiKey}`)
-        .then(response => {
+    const apiKey = 'c747c969b2404e4dabfbd420e7d9a9f7';
+    const cacheKey = `${searchQuery}`;
 
-            const data = response.data;
-            console.log(data);
-            let weatherForecaster = response.data.data.map(obj => {
-                return new Forecast(obj.valid_date, obj.weather.description, data.lat, data.lon, data.city_name)
+    const cacheData = cache.get(cacheKey);
+    if(cacheData !== "undefined"){
+        res.send(cacheData)
+    }else{
+
+        axios.get(`https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&city=${searchQuery}&key=${apiKey}`)
+            .then(response => {
+    
+                const data = response.data;
+                console.log(data);
+                let weatherForecaster = response.data.data.map(obj => {
+                    return new Forecast(obj.valid_date, obj.weather.description, data.lat, data.lon, data.city_name)
+                });
+                cache.set(cacheKey, weatherForecaster, 3600);
+                res.send(weatherForecaster);
+            })
+    
+            .catch(error => {
+                console.error(error);
+                res.status(500).json({ error: "City not found" });
             });
-            res.send(weatherForecaster);
-        })
+        };
+    }
 
-        .catch(error => {
-            console.error(error);
-            res.status(500).json({ error: "City not found" });
-        });
-  };
-
-
+    

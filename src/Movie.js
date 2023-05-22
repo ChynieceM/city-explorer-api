@@ -1,7 +1,9 @@
 const axios = require('axios');
+const NodeCache = require("node-cache");
+const cache = require('./cache');
 
 class Movie {
-    constructor(title, overview, vote_average, poster_path,popularity,release_date){
+    constructor(title, overview, vote_average, poster_path, popularity, release_date) {
         this.title = title;
         this.overview = overview;
         this.vote_average = vote_average;
@@ -9,11 +11,17 @@ class Movie {
         this.popularity = popularity;
         this.release_date = release_date;
     }
-    };
+};
 
-    exports.Movie = function(req, res){
-        const api = '015aa99beb288e6a4a24ca05fa54bebb'
+exports.Movie = function (req, res) {
+    const api = '015aa99beb288e6a4a24ca05fa54bebb'
     let { searchQuery } = req.query;
+    const cacheKey = `${searchQuery}`;
+
+    const cacheData = cache.get(cacheKey);
+    if(cacheData !== "undefined"){
+        res.send(cacheData)
+    }else{
     axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&api_key=${api}`)
         .then(response => {
             const data = response.data;
@@ -28,7 +36,8 @@ class Movie {
             }
             console.log(response)
         })
-      };
+    }
+};
 
 
 
