@@ -1,6 +1,6 @@
 const axios = require('axios');
 const NodeCache = require( "node-cache" );
-const cache = require('cache');
+const cache = new NodeCache();
 
 
 
