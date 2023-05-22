@@ -15,7 +15,6 @@ const NodeCache = require( "node-cache" );
 
 const app = express();//new instance of express app
 app.use(cors());// allows CORS for all routes in app
-app.listen(PORT)
 
 const movieCache = new NodeCache();
 const weatherCache = new NodeCache();
@@ -28,6 +27,7 @@ app.get('/weather', Weather.Weather);
 app.get('/movies', Movie.Movie);
 
 
+app.listen(PORT)
 
 
 

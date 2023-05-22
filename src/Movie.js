@@ -19,7 +19,7 @@ exports.Movie = function (req, res) {
     const cacheKey = `${searchQuery}`;
 
     const cacheData = cache.get(cacheKey);
-    if(cacheData !== "undefined"){
+    if(cacheData != undefined){
         res.send(cacheData)
     }else{
     axios.get(`https://api.themoviedb.org/3/search/multi?query=${searchQuery}&api_key=${api}`)

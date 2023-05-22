@@ -20,7 +20,7 @@ exports.Weather = function(req, res){
     const cacheKey = `${searchQuery}`;
 
     const cacheData = cache.get(cacheKey);
-    if(cacheData !== "undefined"){
+    if(cacheData != undefined){
         res.send(cacheData)
     }else{
 
